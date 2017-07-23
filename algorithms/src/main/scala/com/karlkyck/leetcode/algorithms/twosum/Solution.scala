@@ -29,14 +29,11 @@ object Solution {
       .foldLeft(Array[Int]()) {
         case (accum, (num, index)) =>
           numsMap
-            .get(target - num)
-            .map {
-              numsMapIndex =>
-                if (numsMapIndex > index)
-                  accum.+:(numsMapIndex).+:(index)
-                else
-                  accum
+            .filter {
+              case (_, numsMapIndex) => numsMapIndex > index
             }
+            .get(target - num)
+            .map(accum.+:(_).+:(index))
             .getOrElse(accum)
       }
   }
